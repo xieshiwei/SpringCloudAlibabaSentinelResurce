@@ -29,7 +29,7 @@ public class ParamFlowStatisticExitCallback implements ProcessorSlotExitCallback
 
     @Override
     public void onExit(Context context, ResourceWrapper resourceWrapper, int count, Object... args) {
-        if (context.getCurEntry().getBlockError() == null) {
+        if (context.getCurEntry().getError() == null) {
             ParameterMetric parameterMetric = ParameterMetricStorage.getParamMetric(resourceWrapper);
 
             if (parameterMetric != null) {

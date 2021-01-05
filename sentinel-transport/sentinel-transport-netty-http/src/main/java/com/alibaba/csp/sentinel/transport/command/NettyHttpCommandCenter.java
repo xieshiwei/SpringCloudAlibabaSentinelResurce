@@ -49,8 +49,9 @@ public class NettyHttpCommandCenter implements CommandCenter {
                 try {
                     server.start();
                 } catch (Exception ex) {
-                    RecordLog.warn("[NettyHttpCommandCenter] Failed to start Netty transport server", ex);
+                    RecordLog.info("Start netty server error", ex);
                     ex.printStackTrace();
+                    System.exit(-1);
                 }
             }
         });

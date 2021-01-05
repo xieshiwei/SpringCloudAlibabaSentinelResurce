@@ -16,6 +16,7 @@
 package com.alibaba.csp.sentinel.demo.apache.dubbo.consumer;
 
 import com.alibaba.csp.sentinel.demo.apache.dubbo.FooService;
+
 import org.apache.dubbo.config.annotation.Reference;
 
 /**
@@ -23,7 +24,7 @@ import org.apache.dubbo.config.annotation.Reference;
  */
 public class FooServiceConsumer {
 
-    @Reference(url = "dubbo://127.0.0.1:25758", timeout = 500)
+    @Reference(url = "dubbo://127.0.0.1:25758", timeout = 3000)
     private FooService fooService;
 
     public String sayHello(String name) {
@@ -32,9 +33,5 @@ public class FooServiceConsumer {
 
     public String doAnother() {
         return fooService.doAnother();
-    }
-
-    public String exceptionTest(boolean biz, boolean timeout) {
-        return fooService.exceptionTest(biz, timeout);
     }
 }

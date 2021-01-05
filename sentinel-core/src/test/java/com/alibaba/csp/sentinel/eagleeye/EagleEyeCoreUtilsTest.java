@@ -15,8 +15,6 @@
  */
 package com.alibaba.csp.sentinel.eagleeye;
 
-import java.util.TimeZone;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -155,8 +153,8 @@ public class EagleEyeCoreUtilsTest {
 
     @Test
     public void testFormatTime() {
-        Assert.assertEquals("2019-06-15 12:13:14.000",
-                EagleEyeCoreUtils.formatTime(1560600794000L - TimeZone.getDefault().getRawOffset()));
+        Assert.assertEquals("2019-06-15 20:13:14.000",
+                EagleEyeCoreUtils.formatTime(1560600794000L));
     }
 
     @Test

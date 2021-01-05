@@ -15,7 +15,6 @@
  */
 package com.alibaba.csp.sentinel.demo.file.rule;
 
-import java.io.File;
 import java.util.List;
 
 import com.alibaba.csp.sentinel.datasource.FileRefreshableDataSource;
@@ -46,9 +45,9 @@ public class FileDataSourceInit implements InitFunc {
     @Override
     public void init() throws Exception {
         // A fake path.
-        String flowRuleDir = System.getProperty("user.home") + File.separator + "sentinel" + File.separator + "rules";
+        String flowRuleDir = System.getProperty("user.home") + "/sentinel/rules";
         String flowRuleFile = "flowRule.json";
-        String flowRulePath = flowRuleDir + File.separator + flowRuleFile;
+        String flowRulePath = flowRuleDir + "/" + flowRuleFile;
 
         ReadableDataSource<String, List<FlowRule>> ds = new FileRefreshableDataSource<>(
             flowRulePath, source -> JSON.parseObject(source, new TypeReference<List<FlowRule>>() {})

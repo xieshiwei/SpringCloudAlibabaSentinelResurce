@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import com.alibaba.csp.sentinel.context.Context;
+import com.alibaba.csp.sentinel.node.DefaultNode;
 import com.alibaba.csp.sentinel.slots.block.AbstractRule;
 import com.alibaba.csp.sentinel.slots.block.RuleConstant;
 
@@ -186,6 +188,12 @@ public class ParamFlowRule extends AbstractRule {
     public ParamFlowRule setClusterConfig(ParamFlowClusterConfig clusterConfig) {
         this.clusterConfig = clusterConfig;
         return this;
+    }
+
+    @Override
+    @Deprecated
+    public boolean passCheck(Context context, DefaultNode node, int count, Object... args) {
+        return true;
     }
 
     @Override

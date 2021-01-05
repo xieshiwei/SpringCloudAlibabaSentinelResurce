@@ -1,5 +1,5 @@
 /*
- * Copyright 1999-2020 Alibaba Group Holding Ltd.
+ * Copyright 1999-2018 Alibaba Group Holding Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,6 @@ import java.util.Arrays;
  * Some common functions for Sentinel annotation aspect.
  *
  * @author Eric Zhao
- * @author zhaoyuguang
  */
 public abstract class AbstractSentinelAspectSupport {
 
@@ -187,15 +186,7 @@ public abstract class AbstractSentinelAspectSupport {
     private Method extractDefaultFallbackMethod(ProceedingJoinPoint pjp, String defaultFallback,
                                                 Class<?>[] locationClass) {
         if (StringUtil.isBlank(defaultFallback)) {
-            SentinelResource annotationClass = pjp.getTarget().getClass().getAnnotation(SentinelResource.class);
-            if (annotationClass != null && StringUtil.isNotBlank(annotationClass.defaultFallback())) {
-                defaultFallback = annotationClass.defaultFallback();
-                if (locationClass == null || locationClass.length < 1) {
-                    locationClass = annotationClass.fallbackClass();
-                }
-            } else {
-                return null;
-            }
+            return null;
         }
         boolean mustStatic = locationClass != null && locationClass.length >= 1;
         Class<?> clazz = mustStatic ? locationClass[0] : pjp.getTarget().getClass();
@@ -289,7 +280,7 @@ public abstract class AbstractSentinelAspectSupport {
                 && returnType.isAssignableFrom(method.getReturnType())
                 && Arrays.equals(parameterTypes, method.getParameterTypes())) {
 
-                RecordLog.info("Resolved method [{}] in class [{}]", name, clazz.getCanonicalName());
+                RecordLog.info("Resolved method [{0}] in class [{1}]", name, clazz.getCanonicalName());
                 return method;
             }
         }
@@ -299,7 +290,7 @@ public abstract class AbstractSentinelAspectSupport {
             return findMethod(mustStatic, superClass, name, returnType, parameterTypes);
         } else {
             String methodType = mustStatic ? " static" : "";
-            RecordLog.warn("Cannot find{} method [{}] in class [{}] with parameters {}",
+            RecordLog.warn("Cannot find{0} method [{1}] in class [{2}] with parameters {3}",
                 methodType, name, clazz.getCanonicalName(), Arrays.toString(parameterTypes));
             return null;
         }

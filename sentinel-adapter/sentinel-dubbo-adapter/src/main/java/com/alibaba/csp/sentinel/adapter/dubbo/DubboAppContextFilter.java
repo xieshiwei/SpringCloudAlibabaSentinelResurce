@@ -24,14 +24,12 @@ import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcContext;
 import com.alibaba.dubbo.rpc.RpcException;
 
-import static com.alibaba.dubbo.common.Constants.CONSUMER;
-
 /**
  * Puts current consumer's application name in the attachment of each invocation.
  *
  * @author Eric Zhao
  */
-@Activate(group = CONSUMER)
+@Activate(group = "consumer")
 public class DubboAppContextFilter implements Filter {
 
     @Override

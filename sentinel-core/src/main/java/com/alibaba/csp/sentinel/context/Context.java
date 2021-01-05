@@ -109,7 +109,7 @@ public class Context {
     }
 
     public Node getCurNode() {
-        return curEntry == null ? null : curEntry.getCurNode();
+        return curEntry.getCurNode();
     }
 
     public Context setCurNode(Node node) {

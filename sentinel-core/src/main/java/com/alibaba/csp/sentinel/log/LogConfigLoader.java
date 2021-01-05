@@ -30,34 +30,23 @@ import java.util.concurrent.CopyOnWriteArraySet;
  */
 public class LogConfigLoader {
 
-    public static final String LOG_CONFIG_ENV_KEY = "CSP_SENTINEL_CONFIG_FILE";
-    public static final String LOG_CONFIG_PROPERTY_KEY = "csp.sentinel.config.file";
+    public static final String LOG_CONFIG = "csp.sentinel.config.file";
 
     private static final String DEFAULT_LOG_CONFIG_FILE = "classpath:sentinel.properties";
 
     private static final Properties properties = new Properties();
 
     static {
-        try {
-            load();
-        } catch (Throwable t) {
-            // NOTE: do not use RecordLog here, or there will be circular class dependency!
-            System.err.println("[LogConfigLoader] Failed to initialize configuration items");
-            t.printStackTrace();
-        }
+        load();
     }
 
     private static void load() {
-        // Order: system property -> system env -> default file (classpath:sentinel.properties) -> legacy path
-        String fileName = System.getProperty(LOG_CONFIG_PROPERTY_KEY);
-        if (StringUtil.isBlank(fileName)) {
-            fileName = System.getenv(LOG_CONFIG_ENV_KEY);
-            if (StringUtil.isBlank(fileName)) {
-                fileName = DEFAULT_LOG_CONFIG_FILE;
-            }
+        String file = System.getProperty(LOG_CONFIG);
+        if (StringUtil.isBlank(file)) {
+            file = DEFAULT_LOG_CONFIG_FILE;
         }
 
-        Properties p = ConfigUtil.loadProperties(fileName);
+        Properties p = ConfigUtil.loadProperties(file);
         if (p != null && !p.isEmpty()) {
             properties.putAll(p);
         }

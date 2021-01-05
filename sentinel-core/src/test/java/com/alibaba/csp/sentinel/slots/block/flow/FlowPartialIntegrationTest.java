@@ -116,16 +116,15 @@ public class FlowPartialIntegrationTest {
 
     @Test
     public void testOriginFlowRule() {
-        String RESOURCE_NAME = "testOriginFlowRule";
         // normal
         FlowRule flowRule = new FlowRule();
-        flowRule.setResource(RESOURCE_NAME);
+        flowRule.setResource("testOriginFlowRule");
         flowRule.setGrade(RuleConstant.FLOW_GRADE_QPS);
         flowRule.setCount(0);
         flowRule.setLimitApp("other");
 
         FlowRule flowRule2 = new FlowRule();
-        flowRule2.setResource(RESOURCE_NAME);
+        flowRule2.setResource("testOriginFlowRule");
         flowRule2.setGrade(RuleConstant.FLOW_GRADE_QPS);
         flowRule2.setCount(1);
         flowRule2.setLimitApp("app2");
@@ -135,7 +134,7 @@ public class FlowPartialIntegrationTest {
         ContextUtil.enter("node1", "app1");
         Entry e = null;
         try {
-            e = SphU.entry(RESOURCE_NAME);
+            e = SphU.entry("testOriginFlowRule");
             fail("Should had failed");
         } catch (BlockException e1) {
             e1.printStackTrace();
@@ -147,7 +146,7 @@ public class FlowPartialIntegrationTest {
         ContextUtil.enter("node1", "app2");
         e = null;
         try {
-            e = SphU.entry(RESOURCE_NAME);
+            e = SphU.entry("testOriginFlowRule");
         } catch (BlockException e1) {
             fail("Should had failed");
         }

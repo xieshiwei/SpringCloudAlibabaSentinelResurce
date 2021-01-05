@@ -84,14 +84,6 @@ public class ParameterMetric {
         }
     }
 
-    public void clearForRule(ParamFlowRule rule) {
-        synchronized (lock) {
-            ruleTimeCounters.remove(rule);
-            ruleTokenCounter.remove(rule);
-            threadCountMap.remove(rule.getParamIdx());
-        }
-    }
-
     public void initialize(ParamFlowRule rule) {
         if (!ruleTimeCounters.containsKey(rule)) {
             synchronized (lock) {

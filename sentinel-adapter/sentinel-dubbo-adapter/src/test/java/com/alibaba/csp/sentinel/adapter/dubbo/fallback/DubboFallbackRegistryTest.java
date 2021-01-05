@@ -15,7 +15,6 @@
  */
 package com.alibaba.csp.sentinel.adapter.dubbo.fallback;
 
-import com.alibaba.csp.sentinel.adapter.dubbo.DubboAdapterGlobalConfig;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.csp.sentinel.slots.block.SentinelRpcException;
 import com.alibaba.csp.sentinel.slots.block.flow.FlowException;
@@ -23,6 +22,7 @@ import com.alibaba.dubbo.rpc.Invocation;
 import com.alibaba.dubbo.rpc.Invoker;
 import com.alibaba.dubbo.rpc.Result;
 import com.alibaba.dubbo.rpc.RpcResult;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,25 +31,24 @@ import org.junit.Test;
  */
 public class DubboFallbackRegistryTest {
 
-    @Test
+    @Test(expected = SentinelRpcException.class)
     public void testDefaultFallback() {
-        // Test for default fallback.
+        // Test for default.
         BlockException ex = new FlowException("xxx");
-        Result result = new DefaultDubboFallback().handle(null, null, ex);
-        Assert.assertTrue(result.hasException());
-        Assert.assertEquals(SentinelRpcException.class, result.getException().getClass());
+        DubboFallbackRegistry.getConsumerFallback()
+            .handle(null, null, ex);
     }
 
     @Test
     public void testCustomFallback() {
         BlockException ex = new FlowException("xxx");
-        DubboAdapterGlobalConfig.setConsumerFallback(new DubboFallback() {
+        DubboFallbackRegistry.setConsumerFallback(new DubboFallback() {
             @Override
             public Result handle(Invoker<?> invoker, Invocation invocation, BlockException e) {
                 return new RpcResult("Error: " + e.getClass().getName());
             }
         });
-        Result result = DubboAdapterGlobalConfig.getConsumerFallback()
+        Result result = DubboFallbackRegistry.getConsumerFallback()
             .handle(null, null, ex);
         Assert.assertFalse("The invocation should not fail", result.hasException());
         Assert.assertEquals("Error: " + ex.getClass().getName(), result.getValue());

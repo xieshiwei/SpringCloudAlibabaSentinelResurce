@@ -75,7 +75,7 @@ class FastDateFormat {
 
     private SimpleDateFormat createSimpleDateFormat() {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        fmt.setTimeZone(TimeZone.getDefault());
+        fmt.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
         return fmt;
     }
 }

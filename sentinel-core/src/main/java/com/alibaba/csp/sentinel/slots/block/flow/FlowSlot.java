@@ -15,18 +15,17 @@
  */
 package com.alibaba.csp.sentinel.slots.block.flow;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
 import com.alibaba.csp.sentinel.context.Context;
 import com.alibaba.csp.sentinel.node.DefaultNode;
 import com.alibaba.csp.sentinel.slotchain.AbstractLinkedProcessorSlot;
 import com.alibaba.csp.sentinel.slotchain.ResourceWrapper;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
-import com.alibaba.csp.sentinel.spi.SpiOrder;
 import com.alibaba.csp.sentinel.util.AssertUtil;
 import com.alibaba.csp.sentinel.util.function.Function;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>
@@ -137,7 +136,6 @@ import java.util.Map;
  * @author jialiang.linjl
  * @author Eric Zhao
  */
-@SpiOrder(-2000)
 public class FlowSlot extends AbstractLinkedProcessorSlot<DefaultNode> {
 
     private final FlowRuleChecker checker;

@@ -15,31 +15,33 @@
  */
 package com.alibaba.csp.sentinel.adapter.dubbo.fallback;
 
-import com.alibaba.csp.sentinel.adapter.dubbo.DubboAdapterGlobalConfig;
-
 /**
- * <p>Global fallback registry for Dubbo.</p>
+ * Global fallback registry for Dubbo.
+ *
+ * Note: Degrading is mainly designed for consumer. The provider should not
+ * give fallback result in most circumstances.
  *
  * @author Eric Zhao
- * @deprecated use {@link DubboAdapterGlobalConfig} instead.
  */
-@Deprecated
 public final class DubboFallbackRegistry {
 
+    private static volatile DubboFallback consumerFallback = new DefaultDubboFallback();
+    private static volatile DubboFallback providerFallback = new DefaultDubboFallback();
+
     public static DubboFallback getConsumerFallback() {
-        return DubboAdapterGlobalConfig.getConsumerFallback();
+        return consumerFallback;
     }
 
     public static void setConsumerFallback(DubboFallback consumerFallback) {
-        DubboAdapterGlobalConfig.setConsumerFallback(consumerFallback);
+        DubboFallbackRegistry.consumerFallback = consumerFallback;
     }
 
     public static DubboFallback getProviderFallback() {
-        return DubboAdapterGlobalConfig.getProviderFallback();
+        return providerFallback;
     }
 
     public static void setProviderFallback(DubboFallback providerFallback) {
-        DubboAdapterGlobalConfig.setProviderFallback(providerFallback);
+        DubboFallbackRegistry.providerFallback = providerFallback;
     }
 
     private DubboFallbackRegistry() {}

@@ -15,31 +15,39 @@
  */
 package com.alibaba.csp.sentinel.adapter.dubbo.fallback;
 
-import com.alibaba.csp.sentinel.adapter.dubbo.config.DubboAdapterGlobalConfig;
+import com.alibaba.csp.sentinel.util.AssertUtil;
 
 /**
  * <p>Global fallback registry for Dubbo.</p>
  *
+ * <p>
+ * Note: Circuit breaking is mainly designed for consumer. The provider should not
+ * give fallback result in most circumstances.
+ * </p>
+ *
  * @author Eric Zhao
- * @deprecated use {@link DubboAdapterGlobalConfig} instead since 1.8.0.
  */
-@Deprecated
 public final class DubboFallbackRegistry {
 
+    private static volatile DubboFallback consumerFallback = new DefaultDubboFallback();
+    private static volatile DubboFallback providerFallback = new DefaultDubboFallback();
+
     public static DubboFallback getConsumerFallback() {
-        return DubboAdapterGlobalConfig.getConsumerFallback();
+        return consumerFallback;
     }
 
     public static void setConsumerFallback(DubboFallback consumerFallback) {
-        DubboAdapterGlobalConfig.setConsumerFallback(consumerFallback);
+        AssertUtil.notNull(consumerFallback, "consumerFallback cannot be null");
+        DubboFallbackRegistry.consumerFallback = consumerFallback;
     }
 
     public static DubboFallback getProviderFallback() {
-        return DubboAdapterGlobalConfig.getProviderFallback();
+        return providerFallback;
     }
 
     public static void setProviderFallback(DubboFallback providerFallback) {
-        DubboAdapterGlobalConfig.setProviderFallback(providerFallback);
+        AssertUtil.notNull(providerFallback, "providerFallback cannot be null");
+        DubboFallbackRegistry.providerFallback = providerFallback;
     }
 
     private DubboFallbackRegistry() {}

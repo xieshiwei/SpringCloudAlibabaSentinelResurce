@@ -70,6 +70,6 @@ public class DubboAppContextFilterTest extends BaseTest {
         verify(invoker).invoke(invocation);
 
         String application = RpcContext.getContext().getAttachment(DubboUtils.SENTINEL_DUBBO_APPLICATION_KEY);
-        assertEquals(application, "");
+        assertNull(application);
     }
 }
